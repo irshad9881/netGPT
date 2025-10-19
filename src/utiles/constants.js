@@ -9,8 +9,7 @@ export const   API_OPTIONS = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      // Authorization: 'Bearer '+process.env.REACT_APP_TMDB_KEY,
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmZWY3YjIyNWJhZjg0MWIwZmQxMDg0YzY5YzQ5YTBkMiIsInN1YiI6IjY1MzM4YWJmYTBiZTI4MDBlMjM3ZmQwYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GYLWW8lWBb0RbRJ_Q5NuP5AUC7RzI9wiGhU526d_r6A',
+      Authorization: 'Bearer '+process.env.REACT_APP_TMDB_KEY,
     }
   };
   
@@ -22,5 +21,4 @@ export const   API_OPTIONS = {
   {identifier:"bangla",name:"Bangla"},
 ]
 
-// export const OPENAI_KEY=process.env.REACT_APP_OPENAI_KEY;
-export const OPENAI_KEY='sk-gUGUNelOS-L81ZzzMHgvWRb7bxY5_HL6V2eeh1PmrnT3BlbkFJCDmsE9iTZ3TbM4e9zR04mu-nGrv1OL-6ZTeVyWsRkA';
+export const OPENAI_KEY=process.env.REACT_APP_OPENAI_KEY;

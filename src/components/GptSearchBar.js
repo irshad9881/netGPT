@@ -1,18 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import lang from "../utiles/languageConstant";
 import { useRef } from "react";
-import openai from "../utiles/openai";
+import { getGeminiResponse } from "../utiles/gemini";
 import { API_OPTIONS } from "../utiles/constants";
 import { addGptMoviesResults } from "../utiles/gptSlice";
-import { useNavigate } from "react-router-dom";
 import Error from "./Error";
 const GptSearchBar=()=>{
   const dispatch=useDispatch();
     const langKey=useSelector(store=>store.config.lang);
-     const navigate=useNavigate();
      const searchText=useRef(null);
      const searchMovieTMDB=async (movie)=>{
-     const data = await fetch("https://api.themoviedb.org/3/search/movie?query="+movie+"&include_adult=false&language=en-US&page=1",API_OPTIONS);
+     const data= await fetch("https://api.themoviedb.org/3/search/movie?query="+movie+"&include_adult=false&language=en-US&page=1",API_OPTIONS);
      const json = await data?.json();
      return json?.results;
      }
@@ -21,20 +19,15 @@ const GptSearchBar=()=>{
        const gptQuery="Act as Movie Recommendation system and suggest some movies for the query: "+
        searchText.current.value 
        +" only give me name of  five movies ,comma seperated like the example results:Sholay, Don, Gadar, Golmaal, Koi Mil Gaya";
-       const gptResults = await openai.chat.completions.create({
-        messages: [{ role: 'user', content: gptQuery }],
-        model: 'gpt-3.5-turbo',
-      });
-        
-    
-      if(!gptResults?.choices) 
-      { 
-        navigate("/error");
-        
-        return alert("Oops! eroor with gpt api");
+       const gptResults = await getGeminiResponse(gptQuery);
+      
+      if(!gptResults) 
+      {
+        <Error/>
+        return alert("Oops! error with Gemini API");
       }
-    
-      const gptmovies=gptResults?.choices[0]?.message?.content.split(",");
+      //convert string into array useing split fun 
+      const gptmovies=gptResults.split(",");
       const promisArray=gptmovies?.map((movie)=>searchMovieTMDB(movie));//map in javascript not wait resoponse but  searchMovieTMDB async funtion take some time to return result so useiing 
       const tmdbResults=await Promise?.allSettled(promisArray);   //searchMoviTMDB return array of promise means it will return a promise for each movie  for getting result from this array usein Promise.all()
       dispatch(addGptMoviesResults({title:gptmovies,moviesResults:tmdbResults}));
