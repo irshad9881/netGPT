@@ -6,7 +6,7 @@ const MoviesList = ({ title, movies }) => {
   const [showRightArrow, setShowRightArrow] = useState(true);
   const scrollRef = useRef(null);
 
-  if (!movies || movies.length === 0) {
+  if (!movies || !Array.isArray(movies) || movies.length === 0) {
     return (
       <div className="px-4 py-6">
         <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">{title}</h2>
@@ -73,7 +73,7 @@ const MoviesList = ({ title, movies }) => {
           onScroll={handleScroll}
           className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 scroll-smooth px-12"
         >
-          {movies.map((movie) => (
+          {Array.isArray(movies) && movies.map((movie) => (
             <MovieCard 
               key={movie.id} 
               movie={movie}

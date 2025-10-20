@@ -94,7 +94,7 @@ const VideoTitle = ({ title, overview }) => {
       {/* Desktop: Normal layout */}
       <div className="hidden sm:block pt-[18%] md:pt-[15%] lg:pt-[20%] w-screen px-6 md:px-12 lg:px-24 absolute text-white  z-10 max-w-full overflow-hidden">
         <div className="max-w-md md:max-w-lg lg:max-w-xl">
-          <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg leading-tight">
+          <h1 className="text-2xl md:text-3xl lg:text-3xl font-bold mb-4 drop-shadow-lg leading-tight">
             {title}
           </h1>
           <p className="text-sm md:text-base lg:text-lg leading-relaxed mb-6 md:mb-8 text-gray-200 drop-shadow line-clamp-3 lg:line-clamp-none">

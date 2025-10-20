@@ -1,11 +1,24 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { IMG_CDN_URL } from "../utiles/constants";
 import { setSelectedMovie } from "../utiles/movisesSlice";
+import { setshowGptSearchPage } from "../utiles/gptSlice";
 
 const MovieCard = ({ movie, className = "" }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const showGptSearchPage = useSelector(store => store?.gpt?.showGptSearchPage);
 
   const handleMovieClick = () => {
+    // Set selected movie
+    dispatch(setSelectedMovie(movie));
+    
+    // If on search page, navigate to browse page
+    if (showGptSearchPage) {
+      dispatch(setshowGptSearchPage()); // Toggle off search page
+      navigate('/browse');
+    }
+    
     // Netflix-style smooth scroll to top
     window.scrollTo({
       top: 0,
@@ -20,7 +33,6 @@ const MovieCard = ({ movie, className = "" }) => {
     }
     
     setTimeout(() => {
-      dispatch(setSelectedMovie(movie));
       if (card) {
         card.style.transform = '';
         card.style.opacity = '';
