@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: netflix-gemini
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s build -l 10000
+    envVars:
+      - key: NODE_VERSION
+        value: 18.17.0
+      - key: NPM_CONFIG_PRODUCTION
+        value: false
