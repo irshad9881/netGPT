@@ -1,52 +1,40 @@
-// Intelligent AI-like movie recommendation system
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GEMINI_KEY } from "./constants";
+
+// Initialize the Gemini API client
+const genAI = new GoogleGenerativeAI(GEMINI_KEY);
+
 export const getGeminiResponse = async (prompt) => {
-  console.log('🤖 AI Movie Recommender activated!');
+  // Debug log to verify if the new API key is successfully loaded in the browser
+
+  const modelsToTry = [
+    "gemini-flash-latest",
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash-latest",
+    "gemini-1.5-flash",
+    "gemini-pro"
+  ];
   
-  // Simulate AI processing delay for realistic feel
-  await new Promise(resolve => setTimeout(resolve, 800));
-  
-  const searchTerm = prompt.toLowerCase();
-  
-  // Advanced keyword matching with multiple categories
-  const movieDatabase = {
-    action: ["Avengers Endgame", "John Wick", "Mad Max Fury Road", "Die Hard", "Mission Impossible"],
-    superhero: ["Spider-Man", "Batman", "Iron Man", "Wonder Woman", "Black Panther"],
-    comedy: ["The Hangover", "Superbad", "Anchorman", "Dumb and Dumber", "Zoolander"],
-    horror: ["The Conjuring", "Insidious", "Annabelle", "It", "The Nun"],
-    romance: ["Titanic", "The Notebook", "Casablanca", "Pretty Woman", "Ghost"],
-    thriller: ["Gone Girl", "Shutter Island", "The Silence of the Lambs", "Se7en", "Zodiac"],
-    drama: ["The Shawshank Redemption", "Forrest Gump", "The Godfather", "Schindler's List", "12 Years a Slave"],
-    scifi: ["Inception", "Interstellar", "Blade Runner", "The Matrix", "Star Wars"],
-    fantasy: ["Lord of the Rings", "Harry Potter", "Game of Thrones", "The Hobbit", "Pan's Labyrinth"],
-    animated: ["Toy Story", "Finding Nemo", "The Lion King", "Frozen", "Shrek"],
-    war: ["Saving Private Ryan", "Dunkirk", "Apocalypse Now", "Platoon", "Full Metal Jacket"],
-    crime: ["Goodfellas", "The Departed", "Scarface", "Casino", "Pulp Fiction"]
-  };
-  
-  // Smart keyword detection
-  let selectedCategory = 'scifi'; // default
-  
-  for (const [category, movies] of Object.entries(movieDatabase)) {
-    if (searchTerm.includes(category) || 
-        (category === 'scifi' && (searchTerm.includes('sci-fi') || searchTerm.includes('science fiction'))) ||
-        (category === 'superhero' && (searchTerm.includes('marvel') || searchTerm.includes('dc'))) ||
-        (category === 'animated' && (searchTerm.includes('cartoon') || searchTerm.includes('kids'))) ||
-        (category === 'romance' && searchTerm.includes('love')) ||
-        (category === 'horror' && searchTerm.includes('scary')) ||
-        (category === 'comedy' && searchTerm.includes('funny'))) {
-      selectedCategory = category;
-      break;
+  let lastError = null;
+  for (const modelName of modelsToTry) {
+    try {
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      
+      let text = response.text();
+      if (text) {
+        text = text.replace(/```(json|csv|text)?/g, "").replace(/```/g, "").trim();
+      }
+      return text;
+    } catch (error) {
+      console.warn(`Gemini model ${modelName} failed, trying next fallback. Error:`, error);
+      lastError = error;
     }
   }
   
-  // Check for specific movie mentions
-  if (searchTerm.includes('batman') || searchTerm.includes('joker')) selectedCategory = 'superhero';
-  if (searchTerm.includes('star wars') || searchTerm.includes('alien')) selectedCategory = 'scifi';
-  if (searchTerm.includes('disney') || searchTerm.includes('pixar')) selectedCategory = 'animated';
-  
-  const recommendations = movieDatabase[selectedCategory];
-  
-  console.log(`🎬 Found ${selectedCategory} movies for: "${prompt}"`);
-  
-  return recommendations.join(', ');
+  console.error("All Gemini models failed. Last error:", lastError);
+  return null;
 };

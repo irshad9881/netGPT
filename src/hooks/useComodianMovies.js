@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { API_OPTIONS } from "../utiles/constants";
+import { API_OPTIONS, TMDB_API_URL } from "../utiles/constants";
 import { useEffect } from "react";
 import { addComodianMovies } from "../utiles/movisesSlice";
 
 const useComodianMovies=()=>{
     const dispatch=useDispatch();
     const getComodianMovies=async ()=>{
-        const data=await fetch("https://api.themoviedb.org/3/tv/popular?page=1",API_OPTIONS);
+        const data=await fetch(TMDB_API_URL + "/3/tv/popular?page=1",API_OPTIONS);
         const json=await data?.json();
         dispatch(addComodianMovies(json?.results));
     }

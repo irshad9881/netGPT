@@ -1,13 +1,14 @@
 import { useSelector } from "react-redux";
 import VideoBackground from "./VideoBackground";
 import VideoTitle from "./VideoTitle";
+import { MainContainerShimmer } from "./Shimmer";
 
 const MainContainer=()=>{
     const movies=useSelector((store)=>store?.movies?.nowPlayingMovies);
     const selectedMovie=useSelector((store)=>store?.movies?.selectedMovie);
     
     if(movies===null)//"early return" if insily thre is no moives
-    return  ;
+    return <MainContainerShimmer />;
     
     // Use selected movie or fallback to default movie
     const mainMovies = selectedMovie || movies[2];

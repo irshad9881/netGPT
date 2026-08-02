@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { API_OPTIONS } from "../utiles/constants"
+import { API_OPTIONS, TMDB_API_URL } from "../utiles/constants"
 import { useEffect } from "react";
 import { addTvSeries } from "../utiles/movisesSlice";
 const useTvSeries=()=>{
@@ -7,7 +7,7 @@ const useTvSeries=()=>{
    //memoization..........................
    const nowTvSeriesMovies=useSelector(store=>store?.movies?.tvSeriesMovies);
     const getTvSeries=async ()=>{
-       const data=await fetch("https://api.themoviedb.org/3/tv/airing_today?page=1",API_OPTIONS);
+       const data=await fetch(TMDB_API_URL + "/3/tv/airing_today?page=1",API_OPTIONS);
        const json=await data?.json();
        dispatch(addTvSeries(json?.results));
     }

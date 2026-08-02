@@ -6,15 +6,17 @@ const gptSlice=createSlice({
         showGptSearchPage:false,
         moviesName:null,
         moviesResults:null,
+        isFallback:false,
     },
     reducers:{
         setshowGptSearchPage:(state,action)=>{
             state.showGptSearchPage=!state.showGptSearchPage;
         },
         addGptMoviesResults:(state,action)=>{
-            const {title,moviesResults}=action.payload;
+            const {title,moviesResults,isFallback}=action.payload;
             state.moviesName=title;
             state.moviesResults=moviesResults;
+            state.isFallback=isFallback || false;
         }
     }
 })

@@ -1,10 +1,15 @@
 import { useState, useRef } from "react";
 import MovieCard from "./MoviesCard";
+import { MovieListShimmer } from "./Shimmer";
 
 const MoviesList = ({ title, movies }) => {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
   const scrollRef = useRef(null);
+
+  if (movies === null) {
+    return <MovieListShimmer title={title} />;
+  }
 
   if (!movies || !Array.isArray(movies) || movies.length === 0) {
     return (
