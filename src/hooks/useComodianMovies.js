@@ -3,15 +3,19 @@ import { API_OPTIONS, TMDB_API_URL } from "../utiles/constants";
 import { useEffect } from "react";
 import { addComodianMovies } from "../utiles/movisesSlice";
 
-const useComodianMovies=()=>{
-    const dispatch=useDispatch();
-    const getComodianMovies=async ()=>{
-        const data=await fetch(TMDB_API_URL + "/3/tv/popular?page=1",API_OPTIONS);
-        const json=await data?.json();
-        dispatch(addComodianMovies(json?.results));
-    }
-    useEffect(()=>{
-         getComodianMovies();
-    },[])
-}
+const useComodianMovies = () => {
+  const dispatch = useDispatch();
+  const comodianMovies = useSelector((store) => store?.movies?.comodianMovies);
+
+  const getComodianMovies = async () => {
+    const data = await fetch(TMDB_API_URL + "/3/tv/popular?page=1", API_OPTIONS);
+    const json = await data?.json();
+    dispatch(addComodianMovies(json?.results));
+  };
+
+  useEffect(() => {
+    !comodianMovies && getComodianMovies();
+  }, []);
+};
+
 export default useComodianMovies;

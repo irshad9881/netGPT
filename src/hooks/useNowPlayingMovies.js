@@ -3,17 +3,21 @@ import { addNowPlayingMovies } from "../utiles/movisesSlice";
 import { useEffect } from "react";
 import { API_OPTIONS, TMDB_API_URL } from "../utiles/constants";
 
-const useNowPlayingMovies=()=>{
-    const dispatch=useDispatch();
-    //memoization...........................
-   // const nowPlayingMovies=useSelector(store=>store.movies.nowPlayingMovies);
-    const getNowPlayingMovies= async ()=>{
-    const data= await fetch(TMDB_API_URL + '/3/movie/now_playing?page=1', API_OPTIONS)
-    const json= await data?.json();
+const useNowPlayingMovies = () => {
+  const dispatch = useDispatch();
+  // memoization check
+  const nowPlayingMovies = useSelector((store) => store?.movies?.nowPlayingMovies);
+
+  const getNowPlayingMovies = async () => {
+    const data = await fetch(TMDB_API_URL + '/3/movie/now_playing?page=1', API_OPTIONS);
+    const json = await data?.json();
     dispatch(addNowPlayingMovies(json?.results));
-}
-useEffect(()=>{
-      getNowPlayingMovies();
-},[]);
+  };
+
+  useEffect(() => {
+    !nowPlayingMovies && getNowPlayingMovies();
+  }, []);
 };
+
 export default useNowPlayingMovies;
+

@@ -55,6 +55,9 @@ const MovieCard = ({ movie, className = "" }) => {
           alt={movie.title || movie.name || "Movie poster"}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
           loading="lazy"
+          decoding="async"
+          width="192"
+          height="288"
         />
         
         {/* Overlay on hover */}
