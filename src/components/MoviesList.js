@@ -52,6 +52,7 @@ const MoviesList = ({ title, movies }) => {
         {showLeftArrow && (
           <button
             onClick={() => scroll('left')}
+            aria-label={`Scroll ${title} left`}
             className="absolute left-0 top-1/2 -translate-y-1/2 z-50 bg-black/80 hover:bg-black text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,6 +65,7 @@ const MoviesList = ({ title, movies }) => {
         {showRightArrow && (
           <button
             onClick={() => scroll('right')}
+            aria-label={`Scroll ${title} right`}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-50 bg-black/80 hover:bg-black text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

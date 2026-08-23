@@ -28,17 +28,19 @@ const Browse = () => {
   return (
     <div>
       <Header />
-      <Suspense fallback={<LoadingFallback />}>
-        {showGptSearchPage ? (
-          <GptSearchPage />
-        ) : (
-          <>
-            <MainContainer />
-            <SecondrayContainer />
-            <Footer />
-          </>
-        )}
-      </Suspense>
+      <main>
+        <Suspense fallback={<LoadingFallback />}>
+          {showGptSearchPage ? (
+            <GptSearchPage />
+          ) : (
+            <>
+              <MainContainer />
+              <SecondrayContainer />
+              <Footer />
+            </>
+          )}
+        </Suspense>
+      </main>
     </div>
   );
 };

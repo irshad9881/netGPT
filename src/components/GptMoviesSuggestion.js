@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import MoviesList from "./MoviesList"
 const GptMoviesSuggestion = () => {
-  const {moviesName,moviesResults,isFallback}=useSelector(store=>store?.gpt);
-   if(!moviesName)
-{ //shimer ui
+  const { moviesName, moviesResults, isFallback } = useSelector(store => store?.gpt);
+  if (!moviesName) { //shimer ui
     return <h2 className="font-bold text-3xl text-white flex justify-center mt-20  bg-black p-4 rounded-3xl  ">No movies</h2>;
-  }  return (
+  }
+  return (
     <div className="p-4 m-4 bg-black text-teal-50 bg-opacity-90 text-sm md:text-lg rounded-lg">
       {isFallback && (
         <div className="mb-6 p-4 rounded-lg bg-yellow-950/40 border border-yellow-800/60 text-yellow-300 flex items-center gap-3 shadow-inner backdrop-blur-sm">
@@ -18,10 +18,10 @@ const GptMoviesSuggestion = () => {
       )}
       <div>
         {
-          moviesName?.map((moviesName,index)=> {
+          moviesName?.map((moviesName, index) => {
             const movieData = moviesResults[index]?.value || moviesResults[index];
             return (
-              <MoviesList 
+              <MoviesList
                 key={moviesName}
                 title={moviesName}
                 movies={movieData}
