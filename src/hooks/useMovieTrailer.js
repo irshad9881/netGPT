@@ -1,10 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addMovieTrailer } from "../utiles/movisesSlice";
 import { useEffect } from "react";
 import { API_OPTIONS, TMDB_API_URL } from "../utiles/constants";
 
 const useMovieTrailer = (moveiId) => {
     const dispatch = useDispatch();
+    const nowMovieTrailer = useSelector((store) => store?.movies?.nowMovieTrailer);
 
     const getMovieVideos = async () => {
         if (!moveiId) return;
@@ -35,15 +36,21 @@ const useMovieTrailer = (moveiId) => {
             const filtedData = videoResults.filter((video) => video?.type === "Trailer");
             const trailer = filtedData.length ? filtedData[0] : (videoResults.length ? videoResults[0] : null);
 
-            dispatch(addMovieTrailer(trailer));
+            // Attach requested moveiId to trailer object for ID-based memoization tracking
+            const trailerWithMovieId = trailer ? { ...trailer, movieId: moveiId } : { movieId: moveiId };
+
+            dispatch(addMovieTrailer(trailerWithMovieId));
         } catch (error) {
             console.error("Error fetching trailer videos:", error);
-            dispatch(addMovieTrailer(null));
+            dispatch(addMovieTrailer({ movieId: moveiId }));
         }
     };
 
     useEffect(() => {
-        getMovieVideos();
+        // Memoization: Only fetch if trailer for THIS specific moveiId is not already in Redux
+        if (!nowMovieTrailer || nowMovieTrailer.movieId !== moveiId) {
+            getMovieVideos();
+        }
     }, [moveiId]);
 };
 
