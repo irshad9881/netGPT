@@ -21,7 +21,6 @@ export const   API_OPTIONS = {
   {identifier:"bangla",name:"Bangla"},
 ]
 
-export const OPENAI_KEY=process.env.REACT_APP_OPENAI_KEY;
 export const GEMINI_KEY=process.env.REACT_APP_GEMINI_API_KEY;
 export const TMDB_SEARCH_API_URL=process.env.REACT_APP_TMDB_SEARCH_API_URL || "https://api.themoviedb.org/3/search/movie";
 export const TMDB_API_URL=process.env.REACT_APP_TMDB_API_URL || "https://api.themoviedb.org";

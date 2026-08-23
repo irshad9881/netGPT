@@ -1,8 +1,3 @@
-import OpenAI from 'openai';
-import { OPENAI_KEY } from './constants';
-const openai = new OpenAI({
-    apiKey:OPENAI_KEY, 
-    dangerouslyAllowBrowser: true ,
-  });
-
-  export default openai;
+// Legacy file - AI engine migrated to Google Gemini AI (see gemini.js)
+const openai = null;
+export default openai;
