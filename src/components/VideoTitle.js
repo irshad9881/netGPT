@@ -7,17 +7,12 @@ const VideoTitle = ({ title, overview }) => {
   const handlePlay = () => {
     const iframe = document.querySelector('iframe');
     if (iframe) {
-      if (isPlaying) {
-        // Pause video by changing src to remove autoplay
-        const currentSrc = iframe.src;
-        iframe.src = currentSrc.replace('&autoplay=1', '&autoplay=0');
-        setIsPlaying(false);
-      } else {
-        // Play video by adding autoplay
-        const currentSrc = iframe.src;
-        iframe.src = currentSrc.replace('&autoplay=0', '&autoplay=1');
-        setIsPlaying(true);
-      }
+      const command = isPlaying ? 'pauseVideo' : 'playVideo';
+      iframe.contentWindow?.postMessage(
+        JSON.stringify({ event: 'command', func: command, args: [] }),
+        '*'
+      );
+      setIsPlaying(!isPlaying);
     }
   };
 
