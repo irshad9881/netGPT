@@ -32,7 +32,7 @@ const VideoBackground = ({ moveiId }) => {
             <iframe
                 ref={iframeRef}
                 className="w-screen aspect-video pt-12 md:pt-0"
-                src={`https://www.youtube.com/embed/${trailerVideo?.key}?autoplay=1&mute=1&enablejsapi=1&controls=0&rel=0`}
+                src={trailerVideo?.key ? `https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1&mute=1&enablejsapi=1&controls=0&rel=0` : ''}
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             >

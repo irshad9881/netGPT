@@ -22,6 +22,8 @@ const GptSearchBar=()=>{
       
       let gptResults = null;
       let isFallback = false;
+      let directSearchMovieTitle = null;
+      let directSearchResult = null;
       
       try {
         gptResults = await getGeminiResponse(gptQuery);
@@ -67,9 +69,10 @@ const GptSearchBar=()=>{
           try {
             const rawTMDBResults = await searchMovieTMDB(searchText.current.value);
             if (rawTMDBResults && rawTMDBResults.length > 0) {
-              const topMovieTitle = rawTMDBResults[0].title;
-              if (!fallbackMovies.includes(topMovieTitle)) {
-                fallbackMovies.unshift(topMovieTitle);
+              directSearchMovieTitle = rawTMDBResults[0].title;
+              directSearchResult = rawTMDBResults;
+              if (!fallbackMovies.includes(directSearchMovieTitle)) {
+                fallbackMovies.unshift(directSearchMovieTitle);
               }
             }
           } catch (tmdbError) {
@@ -83,7 +86,12 @@ const GptSearchBar=()=>{
         gptmovies=gptResults.split(",").map(movie => movie.trim());
       }
       
-      const promisArray=gptmovies?.map((movie)=>searchMovieTMDB(movie));//map in javascript not wait resoponse but  searchMovieTMDB async funtion take some time to return result so useiing 
+      const promisArray=gptmovies?.map((movie)=>{
+        if (directSearchMovieTitle && movie === directSearchMovieTitle && directSearchResult) {
+          return Promise.resolve(directSearchResult);
+        }
+        return searchMovieTMDB(movie);
+      });
       const tmdbResults=await Promise?.allSettled(promisArray);   //searchMoviTMDB return array of promise means it will return a promise for each movie  for getting result from this array usein Promise.all()
       
       // Make tmdbResults serializable for Redux by converting Error reasons to strings
