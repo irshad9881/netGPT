@@ -3,11 +3,12 @@ import lang from "../utiles/languageConstant";
 import { useRef } from "react";
 import { getGeminiResponse } from "../utiles/gemini";
 import { API_OPTIONS, TMDB_SEARCH_API_URL } from "../utiles/constants";
-import { addGptMoviesResults } from "../utiles/gptSlice";
+import { addGptMoviesResults, setIsSearching } from "../utiles/gptSlice";
 import Error from "./Error";
 const GptSearchBar=()=>{
   const dispatch=useDispatch();
     const langKey=useSelector(store=>store.config.lang);
+    const isSearching=useSelector(store=>store.gpt.isSearching);
      const searchText=useRef(null);
      const searchMovieTMDB=async (movie)=>{
      const data= await fetch(TMDB_SEARCH_API_URL + "?query="+movie+"&include_adult=false&language=en-US&page=1",API_OPTIONS);
@@ -15,9 +16,14 @@ const GptSearchBar=()=>{
      return json?.results;
      }
     const  handleGptSearchBar=async ()=>{
+      const query = searchText.current?.value?.trim();
+      if (!query || isSearching) return;
+
+      dispatch(setIsSearching(true));
+      try {
       //make api call
       const gptQuery="Act as Movie Recommendation system and suggest some movies for the query: "+
-      searchText.current.value 
+      query
       +" only give me name of  five movies ,comma seperated like the example results:Sholay, Don, Gadar, Golmaal, Koi Mil Gaya";
       
       let gptResults = null;
@@ -110,12 +116,16 @@ const GptSearchBar=()=>{
       });
       
       dispatch(addGptMoviesResults({title:gptmovies,moviesResults:serializableResults,isFallback:isFallback}));
+      } catch (error) {
+        console.error("Search failed:", error);
+        dispatch(setIsSearching(false));
+      }
     }
     return(
         <div className="pt-[45%]  md:pt-[10%] flex justify-center ">
             <form className="w-full md:w-1/2  bg-black grid grid-cols-12 " onSubmit={(e)=>e.preventDefault()}>
                 <input  ref={searchText} className="h-10 md:h-15  hover:text-white hover:bg-gray-300 p-1 m-1 md:p-2 md:m-2 col-span-9" type="text" placeholder={lang[langKey].gptSearchPlaceholder}/>
-                <button onClick={handleGptSearchBar}className="h-9 my-auto  md:h-10 p-2 m-1 md:p-2 md:m-2 hover:bg-red-700 col-span-3 m-2 py-2 px-4 bg-red-600 text-white rounded-lg">{lang[langKey].search}</button>
+                <button disabled={isSearching} onClick={handleGptSearchBar}className="h-9 my-auto  md:h-10 p-2 m-1 md:p-2 md:m-2 hover:bg-red-700 col-span-3 m-2 py-2 px-4 bg-red-600 text-white rounded-lg disabled:opacity-70 disabled:cursor-not-allowed">{isSearching ? "Searching..." : lang[langKey].search}</button>
             </form>
         </div>
     );

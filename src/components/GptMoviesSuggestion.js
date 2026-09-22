@@ -1,9 +1,23 @@
 import { useSelector } from "react-redux";
 import MoviesList from "./MoviesList"
+import { MovieListShimmer } from "./Shimmer"
 const GptMoviesSuggestion = () => {
-  const { moviesName, moviesResults, isFallback } = useSelector(store => store?.gpt);
-  if (!moviesName) { //shimer ui
-    return <h2 className="font-bold text-3xl text-white flex justify-center mt-20  bg-black p-4 rounded-3xl  ">No movies</h2>;
+  const { moviesName, moviesResults, isFallback, isSearching } = useSelector(store => store?.gpt);
+
+  if (isSearching) {
+    return (
+      <div className="p-4 m-4 bg-black text-teal-50 bg-opacity-90 rounded-lg">
+        <MovieListShimmer title="Finding movies..." />
+        <MovieListShimmer />
+        <MovieListShimmer />
+        <MovieListShimmer />
+        <MovieListShimmer />
+      </div>
+    );
+  }
+
+  if (!moviesName) {
+    return null;
   }
   return (
     <div className="p-4 m-4 bg-black text-teal-50 bg-opacity-90 text-sm md:text-lg rounded-lg">
@@ -34,4 +48,4 @@ const GptMoviesSuggestion = () => {
   )
 }
 
-export default GptMoviesSuggestion; 
+export default GptMoviesSuggestion;
