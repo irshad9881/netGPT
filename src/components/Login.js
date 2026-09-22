@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword ,signInWithEmailAndPassword,updateProfil
 import {auth} from "../utiles/fireBase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utiles/userSlice";
-import { LOGIN_BG,URL_LOGIN } from "../utiles/constants";
+import { LOGIN_BG, URL_LOGIN } from "../utiles/constants";
 const Login=()=>{
   const [errorMessage,setErrorMessage]=useState('');
   const email=useRef(null);
@@ -56,23 +56,21 @@ const Login=()=>{
     }
 }  
     return (
-        <div>
+        <div className="relative min-h-screen">
              <Header/> 
-             <div className="absolute">
-                 <img className="h-screen  object-cover w-screen " src={LOGIN_BG} alt="logo" />
+             <div className="absolute inset-0">
+                 <img className="h-full w-full object-cover" src={LOGIN_BG} alt="" />
+                 <div className="absolute inset-0 bg-black/60" />
              </div>
-             <div className=" top-28 text-xl relative z-10  h-10  m-auto w-6/12 md:w-3/12 font-bold justify-center bg-black opacity-80 ">
-                <h1 className="text-red-500 justify-center text-center ">Welcome Back</h1>
-             </div>
-             {/* signIn and signup form */}
-             <form onSubmit={(e)=>e.preventDefault()}className="h-[50%]  md:h-[72%] w-full md:w-3/12 absolute bg-black p-12 mx-auto left-0 right-0 my-36 text-white bg-opacity-80 rounded-lg">
-                 <h1 className="font-bold text-lg md:text-3xl relative -top-10 md:relative md:py-4">{isSignInForm?"Sign In":"Sign Up"}</h1>
-                 {!isSignInForm&&<input ref={name} type="text" placeholder="Full name" className="relative -top-8 md:-top-4 md:relative p-1.5 md:p-3 my-1 md:my-2 w-full bg-gray-700 rounded-lg "/>}
-                 <input ref={email} type="text" placeholder="Email Address" className=" relative -top-7 md:-top-5 md:relative p-1.5 md:p-3 my-1 md:my-1 w-full bg-gray-700 rounded-lg "/>
-                 <input ref={password} type="password" placeholder="Password" className="relative -top-5 md:-top-5 md:relative p-1.5 md:p-3 my-1 md:my-1 w-full rounded-lg bg-gray-700 "></input>
-                 <p className="text-center text-red-600 font-bold text-lg py-2">{errorMessage}</p>
-                 <button className="relative -top-3 md:-top-4 md:relative p-1.5 md:p-3 my-0 md:my-1 bg-red-600 w-full rounded-lg hover:bg-red-800" onClick={handleButtonClick}>{isSignInForm?"Sign In":"Sign Up"}</button>
-                 <p className=" relative -top-4 md:-top-5 text-sm md:text-lg py-4 cursor-pointer"onClick={toggleSignInForm}>{isSignInForm?"Is you New for Netflix click on ? Sign Up Now":"Already Registered ?Sign In Now"}</p>
+             <form onSubmit={(e)=>e.preventDefault()} className="relative z-10 w-11/12 max-w-md mx-auto mt-28 md:mt-36 bg-black/80 p-8 md:p-12 text-white rounded-md flex flex-col gap-4">
+                 <h1 className="font-bold text-3xl">{isSignInForm?"Sign In":"Sign Up"}</h1>
+                 {!isSignInForm&&<input ref={name} type="text" placeholder="Full name" className="p-3 w-full bg-zinc-800 rounded outline-none focus:ring-1 focus:ring-zinc-500"/>}
+                 <input ref={email} type="text" placeholder="Email Address" className="p-3 w-full bg-zinc-800 rounded outline-none focus:ring-1 focus:ring-zinc-500"/>
+                 <input ref={password} type="password" placeholder="Password" className="p-3 w-full bg-zinc-800 rounded outline-none focus:ring-1 focus:ring-zinc-500"/>
+                 {errorMessage && <p className="text-red-500 font-semibold text-sm">{errorMessage}</p>}
+                 <button className="p-3 bg-red-600 w-full rounded hover:bg-red-700 font-semibold" onClick={handleButtonClick}>{isSignInForm?"Sign In":"Sign Up"}</button>
+                 <p className="text-zinc-400 cursor-pointer hover:underline" onClick={toggleSignInForm}>{isSignInForm?"New to NetGPT? Sign Up Now":"Already registered? Sign In Now"}</p>
+                 <p className="text-[11px] text-zinc-500 leading-relaxed">Portfolio project. Not affiliated with Netflix. Use a test email, not your Netflix password.</p>
              </form>
         </div>
     );

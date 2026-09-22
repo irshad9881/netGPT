@@ -75,7 +75,7 @@ const Footer = () => {
           <div className="space-y-3 md:space-y-4 text-center md:text-left">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4">
               <p className="text-xs md:text-sm text-gray-500">
-                © 1997-2024 Netflix-Gemini, Inc.
+                © {new Date().getFullYear()} NetGPT Demo. Educational portfolio project.
               </p>
               <div className="flex items-center justify-center md:justify-start text-xs md:text-sm text-gray-500">
                 Made with 
@@ -87,8 +87,8 @@ const Footer = () => {
             {/* Legal Disclaimer */}
             <div className="bg-gray-900/50 rounded-lg p-3 md:p-4 backdrop-blur-sm">
               <p className="text-xs text-gray-500 leading-relaxed">
-                This is a demo application built for educational purposes. 
-                Netflix is a trademark of Netflix, Inc. All movie data is provided by 
+                This is a student/portfolio demo and is not affiliated with, endorsed by, or connected to Netflix, Inc.
+                Netflix is a trademark of Netflix, Inc. Movie data is provided by
                 <span className="text-blue-400 hover:text-blue-300 cursor-pointer"> TMDB API</span>.
               </p>
             </div>

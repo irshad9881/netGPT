@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { addUser, removeUser } from "../utiles/userSlice";
-import { LOGO, SUPPORTED_LAG } from "../utiles/constants";
+import { SUPPORTED_LAG } from "../utiles/constants";
 import { setshowGptSearchPage } from "../utiles/gptSlice";
 import { changeLanguage } from "../utiles/configSlice";
 
@@ -63,11 +63,12 @@ const Header = () => {
       <div className="flex items-center justify-between px-3 sm:px-4 md:px-8 lg:px-16 py-3 sm:py-4 md:py-6">
         {/* Logo */}
         <div className="flex items-center">
-          <img 
-            className="h-5 sm:h-6 md:h-8 w-auto transition-transform duration-200 hover:scale-105" 
-            src={LOGO} 
-            alt="Netflix Logo" 
-          />
+          <span
+            className="text-[#E50914] text-[2rem] sm:text-4xl md:text-5xl leading-none select-none"
+            style={{ fontFamily: "'Bebas Neue', 'Arial Black', sans-serif" }}
+          >
+            NETGPT
+          </span>
         </div>
 
         {/* Navigation & User Menu */}
