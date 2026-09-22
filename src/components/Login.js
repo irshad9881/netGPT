@@ -62,6 +62,7 @@ const Login=()=>{
                  <img className="h-full w-full object-cover" src={LOGIN_BG} alt="" />
                  <div className="absolute inset-0 bg-black/60" />
              </div>
+             <main>
              <form onSubmit={(e)=>e.preventDefault()} className="relative z-10 w-11/12 max-w-md mx-auto mt-28 md:mt-36 bg-black/80 p-8 md:p-12 text-white rounded-md flex flex-col gap-4">
                  <h1 className="font-bold text-3xl">{isSignInForm?"Sign In":"Sign Up"}</h1>
                  {!isSignInForm&&<input ref={name} type="text" placeholder="Full name" className="p-3 w-full bg-zinc-800 rounded outline-none focus:ring-1 focus:ring-zinc-500"/>}
@@ -72,6 +73,7 @@ const Login=()=>{
                  <p className="text-zinc-400 cursor-pointer hover:underline" onClick={toggleSignInForm}>{isSignInForm?"New to NetGPT? Sign Up Now":"Already registered? Sign In Now"}</p>
                  <p className="text-[11px] text-zinc-500 leading-relaxed">Portfolio project. Not affiliated with Netflix. Use a test email, not your Netflix password.</p>
              </form>
+             </main>
         </div>
     );
 }
