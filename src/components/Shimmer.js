@@ -63,18 +63,3 @@ export const MainContainerShimmer = () => {
     </div>
   );
 };
-
-const Shimmer = () => {
-  return (
-    <div className="bg-black min-h-screen text-white">
-      <MainContainerShimmer />
-      <div className="mt-0 md:-mt-40 relative z-20 space-y-4">
-        <MovieListShimmer title="Loading Movies..." />
-        <MovieListShimmer title="Popular" />
-        <MovieListShimmer title="Top Rated" />
-      </div>
-    </div>
-  );
-};
-
-export default Shimmer;
