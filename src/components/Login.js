@@ -16,45 +16,35 @@ const Login=()=>{
   const toggleSignInForm=()=>{
       setIsSignInForm(!isSignInForm);
   }
-  const handleButtonClick=()=>{
-    //email and password validation or form validation
-    const message = checkValidData(email.current.value,password.current.value );
+  const handleButtonClick = async () => {
+    const message = checkValidData(email.current.value, password.current.value);
     setErrorMessage(message);
-    if(message) return;
-    if(!isSignInForm)//signup 
-    {
-    createUserWithEmailAndPassword(auth, email.current.value,password.current.value )
-      .then((userCredential) => {
-              const user = userCredential.user;
-              updateProfile(user, {
-                                    displayName: name.current.value,
-                                    photoURL: URL_LOGIN
-              }).then(() =>{
-                          //Profile updated! and store
-                          const {uid,email,displayName,photoURL}= auth.currentUser;
-                          dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}));
-                      }).catch((error) =>{ 
-                                    setErrorMessage(error.message);
-                               });
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMessage(errorCode+"-"+errorMessage);
-      });
+    if (message) return;
+
+    try {
+      if (!isSignInForm) {
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        );
+        await updateProfile(user, {
+          displayName: name.current.value,
+          photoURL: URL_LOGIN,
+        });
+        const { uid, email: userEmail, displayName, photoURL } = auth.currentUser;
+        dispatch(addUser({ uid, email: userEmail, displayName, photoURL }));
+      } else {
+        await signInWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value
+        );
+      }
+    } catch (error) {
+      setErrorMessage(error.code ? `${error.code} - ${error.message}` : error.message);
     }
-    else{ //signIn 
-          signInWithEmailAndPassword(auth, email.current.value,password.current.value)
-          .then((userCredential) => {
-            const user = userCredential.user;
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            setErrorMessage(errorCode+" "+errorMessage);
-          });
-    }
-}  
+  };  
     return (
         <div className="relative min-h-screen">
              <Header/> 
