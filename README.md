@@ -1,4 +1,4 @@
-# Netflix-GPT
+# Netflix-AI
 # Deployed at vercel : - https://net-gpt-green.vercel.app/
 
 ## ⚡ Web Performance & Core Web Vitals (Lighthouse Optimization)
