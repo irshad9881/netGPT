@@ -13,13 +13,8 @@
 3. **Resource Preconnecting**: Added `<link rel="preconnect">` hints in `index.html` for external image CDNs (`image.tmdb.org` & `assets.nflxext.com`) to establish early TCP/TLS connections and reduce network latency.
 4. **Image & Layout Optimization**: Added `decoding="async"`, `loading="lazy"`, and explicit `width`/`height` bounds to poster images to prevent Cumulative Layout Shift (CLS) and accelerate Largest Contentful Paint (LCP).
 
-# Future Changes
-- 1. To show Shimmer UI while fetching data, can upgrade with MongoDB database
-- 2. Scale, optimization, and management with large volume data
-
 # Remove listeners when component unmount 
  - useeffect hook
 
 Live : - https://net-qlr6tuo2r-irshad9881s-projects.vercel.app/browse
     OR : https://cinegpt-ai-chi.vercel.app/ 
-         https://cinegpt-ai-chi.vercel.app/
