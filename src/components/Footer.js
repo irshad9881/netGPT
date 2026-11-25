@@ -36,29 +36,29 @@ const Footer = () => {
         {/* Social Media Icons */}
         <div className="flex justify-center md:justify-start space-x-4 md:space-x-6 mb-6 md:mb-8">
           {socialLinks.map((social) => (
-            <a 
+            <button 
+              type="button"
               key={social.name}
-              href="#" 
               className="p-2 md:p-3 bg-gray-800/50 hover:bg-gray-700/70 rounded-full text-gray-400 hover:text-white transition-all duration-300 transform hover:scale-110 backdrop-blur-sm"
               aria-label={social.name}
             >
               <svg className="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d={social.icon} />
               </svg>
-            </a>
+            </button>
           ))}
         </div>
 
         {/* Footer Links Grid - Responsive */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6 mb-6 md:mb-8">
-          {Object.entries(footerLinks).map(([text, href]) => (
-            <a 
+          {Object.keys(footerLinks).map((text) => (
+            <button 
+              type="button"
               key={text}
-              href={href} 
-              className="text-xs md:text-sm text-gray-400 hover:text-white transition-colors duration-200 hover:underline py-1 md:py-2 block"
+              className="text-xs md:text-sm text-gray-400 hover:text-white transition-colors duration-200 hover:underline py-1 md:py-2 block text-left bg-transparent"
             >
               {text}
-            </a>
+            </button>
           ))}
         </div>
 
@@ -75,7 +75,7 @@ const Footer = () => {
           <div className="space-y-3 md:space-y-4 text-center md:text-left">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4">
               <p className="text-xs md:text-sm text-gray-500">
-                © {new Date().getFullYear()} NetGPT Demo. Educational portfolio project.
+                © {new Date().getFullYear()} Netfilix-AI Demo. Educational portfolio project.
               </p>
               <div className="flex items-center justify-center md:justify-start text-xs md:text-sm text-gray-500">
                 Made with 
@@ -95,15 +95,15 @@ const Footer = () => {
             
             {/* Additional Links - Mobile */}
             <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 pt-2">
-              <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
+              <button type="button" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
                 Privacy Policy
-              </a>
-              <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
+              </button>
+              <button type="button" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
                 Terms of Service
-              </a>
-              <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
+              </button>
+              <button type="button" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
                 Cookie Policy
-              </a>
+              </button>
             </div>
           </div>
         </div>

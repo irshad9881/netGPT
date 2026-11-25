@@ -6,12 +6,11 @@ import { MainContainerShimmer } from "./Shimmer";
 const MainContainer=()=>{
     const movies=useSelector((store)=>store?.movies?.nowPlayingMovies);
     const selectedMovie=useSelector((store)=>store?.movies?.selectedMovie);
-    
-    if(movies===null)//"early return" if insily thre is no moives
+
+    const mainMovies = selectedMovie || movies?.[2] || movies?.[0];
+    if(!mainMovies)
     return <MainContainerShimmer />;
-    
-    // Use selected movie or fallback to default movie
-    const mainMovies = selectedMovie || movies[2];
+
     const {original_title,overview ,id }=mainMovies;
     return(
         <div className="">

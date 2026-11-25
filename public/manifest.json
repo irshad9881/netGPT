@@ -1,6 +1,6 @@
 {
-  "short_name": "NetGPT Demo",
-  "name": "NetGPT Demo — AI movie search (not Netflix)",
+  "short_name": "Netfilix-AI",
+  "name": "Netfilix-AI — AI movie search (not Netflix)",
   "icons": [
     {
       "src": "favicon.ico",

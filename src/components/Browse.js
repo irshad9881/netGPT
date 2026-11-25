@@ -2,13 +2,13 @@ import React, { lazy, Suspense } from "react";
 import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 import Header from "./Header";
 import MainContainer from "./MainContainer";
-import usePopulerMovies from "../hooks/usePopolerMovies";
+import usePopularMovies from "../hooks/usePopularMovies";
 import useTvSeries from "../hooks/useTVSeries";
-import useComodianMovies from "../hooks/useComodianMovies";
+import useComedyMovies from "../hooks/useComedyMovies";
 import { useSelector } from "react-redux";
 
 // Lazy-load components to reduce initial JavaScript bundle size
-const SecondrayContainer = lazy(() => import("./SeconderoyContainer"));
+const SecondaryContainer = lazy(() => import("./SecondaryContainer"));
 const GptSearchPage = lazy(() => import("./GptSearchPage"));
 const Footer = lazy(() => import("./Footer"));
 
@@ -21,9 +21,9 @@ const LoadingFallback = () => (
 const Browse = () => {
   const showGptSearchPage = useSelector((store) => store.gpt.showGptSearchPage);
   useNowPlayingMovies();
-  usePopulerMovies();
+  usePopularMovies();
   useTvSeries();
-  useComodianMovies();
+  useComedyMovies();
 
   return (
     <div>
@@ -35,7 +35,7 @@ const Browse = () => {
           ) : (
             <>
               <MainContainer />
-              <SecondrayContainer />
+              <SecondaryContainer />
               <Footer />
             </>
           )}

@@ -8,6 +8,7 @@ const gptSlice=createSlice({
         moviesResults:null,
         isFallback:false,
         isSearching:false,
+        searchMissed:false,
     },
     reducers:{
         setshowGptSearchPage:(state,action)=>{
@@ -15,15 +16,26 @@ const gptSlice=createSlice({
         },
         setIsSearching:(state,action)=>{
             state.isSearching=action.payload;
+            if (action.payload) {
+                state.searchMissed=false;
+            }
+        },
+        setSearchMissed:(state)=>{
+            state.searchMissed=true;
+            state.moviesName=null;
+            state.moviesResults=null;
+            state.isFallback=false;
+            state.isSearching=false;
         },
         addGptMoviesResults:(state,action)=>{
             const {title,moviesResults,isFallback}=action.payload;
             state.moviesName=title;
             state.moviesResults=moviesResults;
             state.isFallback=isFallback || false;
+            state.searchMissed=false;
             state.isSearching=false;
         }
     }
 })
-export const {setshowGptSearchPage,addGptMoviesResults,setIsSearching}=gptSlice.actions;
+export const {setshowGptSearchPage,addGptMoviesResults,setIsSearching,setSearchMissed}=gptSlice.actions;
 export default gptSlice.reducer;

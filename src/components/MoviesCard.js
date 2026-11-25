@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IMG_CDN_URL } from "../utiles/constants";
-import { setSelectedMovie } from "../utiles/movisesSlice";
+import { setSelectedMovie } from "../utiles/moviesSlice";
 import { setshowGptSearchPage } from "../utiles/gptSlice";
 
 const MovieCard = ({ movie, className = "" }) => {

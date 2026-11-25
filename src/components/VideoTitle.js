@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const VideoTitle = ({ title, overview }) => {
   const [isPlaying, setIsPlaying] = useState(true);

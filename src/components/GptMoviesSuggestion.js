@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import MoviesList from "./MoviesList"
 import { MovieListShimmer } from "./Shimmer"
 const GptMoviesSuggestion = () => {
-  const { moviesName, moviesResults, isFallback, isSearching } = useSelector(store => store?.gpt);
+  const { moviesName, moviesResults, isSearching, searchMissed } = useSelector(store => store?.gpt);
 
   if (isSearching) {
     return (
@@ -16,20 +16,22 @@ const GptMoviesSuggestion = () => {
     );
   }
 
+  if (searchMissed) {
+    return (
+      <div className="p-4 m-4 bg-black/90 text-white rounded-lg max-w-2xl mx-auto">
+        <p className="text-lg font-semibold">We didn&apos;t find movies for that</p>
+        <p className="mt-1 text-sm text-zinc-400">
+          Try a title, actor, or mood — e.g. &quot;dark comedy&quot; or &quot;movies like Inception&quot;.
+        </p>
+      </div>
+    );
+  }
+
   if (!moviesName) {
     return null;
   }
   return (
     <div className="p-4 m-4 bg-black text-teal-50 bg-opacity-90 text-sm md:text-lg rounded-lg">
-      {isFallback && (
-        <div className="mb-6 p-4 rounded-lg bg-yellow-950/40 border border-yellow-800/60 text-yellow-300 flex items-center gap-3 shadow-inner backdrop-blur-sm">
-          <span className="text-xl">⚠️</span>
-          <div>
-            <p className="font-semibold text-yellow-200">Gemini AI is currently offline</p>
-            <p className="text-yellow-400/80 text-xs mt-0.5">We searched TMDB directly and suggested some related popular titles for you.</p>
-          </div>
-        </div>
-      )}
       <div>
         {
           moviesName?.map((moviesName, index) => {

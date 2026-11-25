@@ -1,18 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
-import { API_OPTIONS, TMDB_API_URL } from "../utiles/constants"
+import { addTvSeries } from "../utiles/moviesSlice";
 import { useEffect } from "react";
-import { addTvSeries } from "../utiles/movisesSlice";
-const useTvSeries=()=>{
-   const dispatch=useDispatch();
-   //memoization..........................
-   const nowTvSeriesMovies=useSelector(store=>store?.movies?.tvSeriesMovies);
-    const getTvSeries=async ()=>{
-       const data=await fetch(TMDB_API_URL + "/3/tv/airing_today?page=1",API_OPTIONS);
-       const json=await data?.json();
-       dispatch(addTvSeries(json?.results));
-    }
-    useEffect(()=>{
-    !nowTvSeriesMovies && getTvSeries();  
-    },[]);
-}
+import { fetchAiringTv } from "../utiles/media-api";
+
+const useTvSeries = () => {
+  const dispatch = useDispatch();
+  const tvSeriesMovies = useSelector((store) => store?.movies?.tvSeriesMovies);
+
+  useEffect(() => {
+    if (tvSeriesMovies) return undefined;
+    let cancelled = false;
+    fetchAiringTv()
+      .then((results) => {
+        if (!cancelled) dispatch(addTvSeries(results));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+};
+
 export default useTvSeries;

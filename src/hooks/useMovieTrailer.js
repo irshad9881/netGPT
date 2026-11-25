@@ -1,57 +1,35 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addMovieTrailer } from "../utiles/movisesSlice";
+import { addMovieTrailer } from "../utiles/moviesSlice";
 import { useEffect } from "react";
-import { API_OPTIONS, TMDB_API_URL } from "../utiles/constants";
+import { fetchMediaVideos } from "../utiles/media-api";
 
-const useMovieTrailer = (moveiId) => {
-    const dispatch = useDispatch();
-    const nowMovieTrailer = useSelector((store) => store?.movies?.nowMovieTrailer);
+const useMovieTrailer = (movieId) => {
+  const dispatch = useDispatch();
+  const nowMovieTrailer = useSelector((store) => store?.movies?.nowMovieTrailer);
 
-    const getMovieVideos = async () => {
-        if (!moveiId) return;
+  useEffect(() => {
+    if (!movieId) return undefined;
+    if (nowMovieTrailer && nowMovieTrailer.movieId === movieId) return undefined;
 
-        try {
-            let videoResults = [];
+    let cancelled = false;
+    fetchMediaVideos(movieId)
+      .then((videoResults) => {
+        if (cancelled) return;
+        const trailers = videoResults.filter((video) => video?.type === "Trailer");
+        const trailer = trailers[0] || videoResults[0] || null;
+        dispatch(
+          addMovieTrailer(trailer ? { ...trailer, movieId } : { movieId })
+        );
+      })
+      .catch(() => {
+        if (!cancelled) dispatch(addMovieTrailer({ movieId }));
+      });
 
-            // 1. Try fetching from TMDB Movie endpoint
-            const data = await fetch(TMDB_API_URL + '/3/movie/' + moveiId + '/videos?language=en-US', API_OPTIONS);
-            if (data.ok) {
-                const json = await data.json();
-                if (Array.isArray(json?.results)) {
-                    videoResults = json.results;
-                }
-            }
-
-            // 2. If movie endpoint returns 404 or empty results, fallback to TV Series endpoint
-            if (videoResults.length === 0) {
-                const tvData = await fetch(TMDB_API_URL + '/3/tv/' + moveiId + '/videos?language=en-US', API_OPTIONS);
-                if (tvData.ok) {
-                    const tvJson = await tvData.json();
-                    if (Array.isArray(tvJson?.results)) {
-                        videoResults = tvJson.results;
-                    }
-                }
-            }
-
-            const filtedData = videoResults.filter((video) => video?.type === "Trailer");
-            const trailer = filtedData.length ? filtedData[0] : (videoResults.length ? videoResults[0] : null);
-
-            // Attach requested moveiId to trailer object for ID-based memoization tracking
-            const trailerWithMovieId = trailer ? { ...trailer, movieId: moveiId } : { movieId: moveiId };
-
-            dispatch(addMovieTrailer(trailerWithMovieId));
-        } catch (error) {
-            console.error("Error fetching trailer videos:", error);
-            dispatch(addMovieTrailer({ movieId: moveiId }));
-        }
+    return () => {
+      cancelled = true;
     };
-
-    useEffect(() => {
-        // Memoization: Only fetch if trailer for THIS specific moveiId is not already in Redux
-        if (!nowMovieTrailer || nowMovieTrailer.movieId !== moveiId) {
-            getMovieVideos();
-        }
-    }, [moveiId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movieId]);
 };
 
 export default useMovieTrailer;
